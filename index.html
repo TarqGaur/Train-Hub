@@ -83,42 +83,26 @@
 
     <script>
         function sendData() {
-            let t1 = document.getElementById("t1").value;
-            let t2 = document.getElementById("t2").value;
-            let t3 = document.getElementById("t3").value;
+    let t1 = document.getElementById("t1").value;
+    let t2 = document.getElementById("t2").value;
+    let t3 = document.getElementById("t3").value;
 
-            if (!t1 || !t2 || !t3) {
-                alert("Please enter all delay values!");
-                return;
+    // Use a relative path that your server will proxy
+    let url = `/proxy?target=http://192.168.4.1/SET_DELAY/${t1}/${t2}/${t3}`;
+
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                document.getElementById("status").textContent = "Delays updated successfully!";
+            } else {
+                document.getElementById("status").textContent = "Error updating delays!";
             }
-
-            // Use query parameters instead of path
-            let url = `http://192.168.4.1/SET_DELAY?t1=${t1}&t2=${t2}&t3=${t3}`;
-
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok');
-            })
-            .then(data => {
-                if (data.status === 'success') {
-                    document.getElementById("status").textContent = "Delays updated successfully!";
-                } else {
-                    document.getElementById("status").textContent = "Error updating delays!";
-                }
-            })
-            .catch(error => {
-                document.getElementById("status").textContent = "Connection failed!";
-                console.error("Error:", error);
-            });
-        }
+        })
+        .catch(error => {
+            document.getElementById("status").textContent = "Connection failed!";
+            console.error("Error:", error);
+        });
+}
     </script>
 
 </body>
