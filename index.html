@@ -94,18 +94,15 @@
 
             let url = `http://192.168.4.1/SET_DELAY/${t1}/${t2}/${t3}`;
 
-            fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        document.getElementById("status").textContent = "Delays updated successfully!";
-                    } else {
-                        document.getElementById("status").textContent = "Error updating delays!";
-                    }
-                })
-                .catch(error => {
-                    document.getElementById("status").textContent = "Connection failed!";
-                    console.error("Error:", error);
-                });
+            fetch(url, { mode: 'no-cors' })
+    .then(response => {
+        document.getElementById("status").textContent = "Delays updated successfully!";
+    })
+    .catch(error => {
+        document.getElementById("status").textContent = "Connection failed!";
+        console.error("Error:", error);
+    });
+
         }
     </script>
 
